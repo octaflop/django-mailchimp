@@ -4,7 +4,7 @@ import pprint
 from utils import transform_datetime
 from utils import flatten
 from warnings import warn
-from django.utils import simplejson
+import json as simplejson
 _debug = 1
 
 
@@ -79,16 +79,8 @@ class Connection(object):
     def ping(self):
         return self._api_call(method='ping')
 
-    def lists(self, limit=25):
-        all_lists = []
-        start = 0
-        has_more = True
-        while has_more:
-            response = self._api_call(method='lists', start=start, limit=limit)
-            all_lists += response['data']
-            has_more = int(response['total']) > len(all_lists)
-            start += 1
-        return all_lists
+    def lists(self):
+        return self._api_call(method='lists')['data']
 
     def list_batch_subscribe(self,
                              id,

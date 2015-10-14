@@ -76,11 +76,8 @@ class BaseChimpObject(object):
             
     def __repr__(self):
         return '<%s object: %s>' % (self.__class__.__name__, getattr(self, self.verbose_attr))
-
-    def __str__(self):
-        return unicode(self).encode('utf-8')
-
-
+        
+        
 class Campaign(BaseChimpObject):
     _attrs = ('archive_url', 'create_time', 'emails_sent', 'folder_id',
               'from_email', 'from_name', 'id', 'inline_css', 'list_id',
@@ -103,7 +100,8 @@ class Campaign(BaseChimpObject):
         
     def __unicode__(self):
         return self.subject
-
+    __str__ = __unicode__
+    
     @property
     def content(self):
         return self.get_content()
@@ -159,6 +157,7 @@ class Member(BaseChimpObject):
         
     def __unicode__(self):
         return self.email
+    __str__ = __unicode__
 
     def __getattr__(self, attr):
         if attr in self._extended_attrs:
@@ -328,7 +327,8 @@ class List(BaseChimpObject):
     
     def __unicode__(self):
         return self.name
-
+    __str__ = __unicode__
+    
     def get_member(self, email):
         try:
             data = self.master.con.list_member_info(self.id, email)

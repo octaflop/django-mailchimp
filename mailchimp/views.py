@@ -132,7 +132,7 @@ class WebHook(MailchimpBaseView):
                 'reason': data['data[reason]'],
             })
         else:
-            merge_re = re.compile('data\[merges\]\[(?P<name>\w+)\]')
+            merge_re = re.compile('data\[merges\]\[(?P<name>w+)\]')
             merges = {}
             for key, value in data.items():
                 match = merge_re.match(key)
@@ -143,8 +143,8 @@ class WebHook(MailchimpBaseView):
                     merges[name] = value
             kwargs.update({
                 'email': data['data[email]'],
-                'fname': data['data[merges][FNAME]'] if 'data[merges][FNAME]' in data else '',
-                'lname': data['data[merges][LNAME]'] if 'data[merges][LNAME]' in data else '',
+                'fname': data['data[merges][FNAME]'],
+                'lname': data['data[merges][LNAME]'],
                 'merges': merges,
             })
             if 'data[merges][INTERESTS]' in data:
